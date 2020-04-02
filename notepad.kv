@@ -6,6 +6,10 @@
     size: 360, 640
     orientation: "vertical"
 
+    close: close_btn
+    edit: edit_btn
+    options: options_btn
+
     tab1: tab1_btn
     tab1: tab2_btn
     tab1: tab3_btn
@@ -15,11 +19,52 @@
     tab1: tab7_btn
     tab1: tab8_btn
 
+    # Top Right
     BoxLayout:
+        size_hint: (None, None)
+        size: (35, 35)
+        pos_hint: {"center_x": .94, "center_y": .96}
+        orientation: "horizontal"
 
+        Button:      
+            id: close_btn
+            text: "X"
+            color: 0, 0, 0, 1
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.close_app(self.size, self.parent.size)
+
+    # Bottom Right
+    BoxLayout:
+        size_hint: (None, None)
+        size: (35, 85)
+        pos_hint: {"center_x": .94, "center_y": .08}
+        orientation: "vertical"
+        spacing: "15"
+
+        ToggleButton:
+            id: edit_btn
+            text: "E"
+            color: 0, 0, 0, 1
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255  
+            on_press: root.toggle_edit(self.size, self.parent.size)
+        Button:      
+            id: options_btn
+            text: "O"
+            color: 0, 0, 0, 1
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255  
+            on_press: root.toggle_options(self.size, self.parent.size)
+
+    # Top Left
+    BoxLayout:
         size_hint: (None, None)
         size: (280, 35)
-        pos_hint: {"center_x": .5, "center_y": .96}
+        pos_hint: {"center_x": .4, "center_y": .96}
         orientation: "horizontal"
 
         Button:

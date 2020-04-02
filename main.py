@@ -6,6 +6,7 @@ from kivy.uix.floatlayout import *
 from kivy.uix.boxlayout import *
 from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton
 from kivy.core.text import *
 from kivy.core.text.markup import *
 from kivy.properties import *
@@ -17,7 +18,9 @@ import os
 Config.set('graphics', 'resizable', False)
 Config.set('graphics', 'width', '360')
 Config.set('graphics', 'height', '640')
+Config.set('graphics', 'borderless', False)
 Config.write()
+
 
 class Notepad(App):
     def __init__(self, **kwargs):
@@ -27,21 +30,19 @@ class Notepad(App):
     def build(self):
         return MainWindow()
 
-"""
-class TopBar(FloatLayout):
 
+class EditMenu(FloatLayout):
 
     def __init__(self, **kwargs):
-        super(TopBar, self).__init__()
-"""
-
+        super(MainWindow, self).__init__()
 
 
 class MainWindow(FloatLayout):
     # buttonit tähän ja viewit ym
-    #close_btn = ObjectProperty()
-    #config_btn = ObjectProperty()
-    #edit_btn = ObjectProperty()
+
+    close = ObjectProperty()
+    options = ObjectProperty()
+    edit = ObjectProperty()
     #text_edit = ObjectProperty()
 
     tab1 = ObjectProperty()
@@ -53,14 +54,29 @@ class MainWindow(FloatLayout):
     tab7 = ObjectProperty()
     tab8 = ObjectProperty()
 
+
     def __init__(self, **kwargs):
         super(MainWindow, self).__init__()
         self.clipboard_text = ""
         self.filepath = ""
 
+    def close_app(self, size, parent_size):
+        print(size)
+        print(parent_size)
+
+    def toggle_options(self, size, parent_size):
+        print(size)
+        print(parent_size)
+
+    def toggle_edit(self, size, parent_size):
+        print(size)
+        print(parent_size)
+
     def change_tab(self, size, parent_size):
         print(size)
         print(parent_size)
+
+
 
 if __name__ == '__main__':
     Notepad().run()
