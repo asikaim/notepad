@@ -4,8 +4,10 @@ Done with python & kivy
 
 # TODO:  
 [X] TopBar in place  
-[X] SideBar in place  
-[ ] EditMenu in place  
-[ ] Note editor in place  
+[X] SideBar in place 
+[X] Note editor in place
+[ ] EditMenu in place
+[ ] NextNote button in place
 [ ] Config popup in place  
-[ ] EditMenu opens if you click text editor  
+[ ] EditMenu opens if you click text editor
+[ ] Add borders to icons, menus and dialogs

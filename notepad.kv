@@ -10,20 +10,12 @@
     edit: edit_btn
     options: options_btn
 
-    tab1: tab1_btn
-    tab1: tab2_btn
-    tab1: tab3_btn
-    tab1: tab4_btn
-    tab1: tab5_btn
-    tab1: tab6_btn
-    tab1: tab7_btn
-    tab1: tab8_btn
 
     # Top Right
     BoxLayout:
         size_hint: (None, None)
         size: (35, 35)
-        pos_hint: {"center_x": .94, "center_y": .96}
+        pos_hint: {"center_x": .94, "center_y": .953}
         orientation: "horizontal"
 
         Button:      
@@ -50,7 +42,7 @@
             width: 35
             height: 35
             background_color: 255, 255, 255, 255  
-            on_press: root.toggle_edit(self.size, self.parent.size)
+            on_state: root.toggle_edit(self.state)
         Button:      
             id: options_btn
             text: "O"
@@ -60,65 +52,114 @@
             background_color: 255, 255, 255, 255  
             on_press: root.toggle_options(self.size, self.parent.size)
 
-    # Top Left
-    BoxLayout:
-        size_hint: (None, None)
-        size: (280, 35)
-        pos_hint: {"center_x": .4, "center_y": .96}
-        orientation: "horizontal"
+<Notepad@BoxLayout>:
+    size_hint: (None, None)
+    size: (291, 585)
+    orientation: "vertical"
 
-        Button:
-            id: tab1_btn
-            text: "1"
-            width: 35
-            height: 35
-            on_press: root.change_tab(self.size, self.parent.size)
-        Button:
-            id: tab2_btn
-            text: "2"
-            width: 35
-            height: 35 
-            on_press: root.change_tab(self.size, self.parent.size)
+<TabLabel@Label>:
+    size_hint: (None, None)
+    size: (291, 40)
+    orientation: "horizontal"
+    halign: "left"
+    valign: "middle"
+    markup: True
 
-        Button:
-            id: tab3_btn
-            text: "3"
-            width: 35
-            height: 35
-            on_press: root.change_tab(self.size, self.parent.size)
+<Note@BoxLayout>:
+    size_hint: (None, None)
+    size: (291, 545)
+    orientation: "vertical"
 
-        Button:
-            id: tab4_btn
-            text: "4"
-            width: 35
-            height: 35
-            on_press: root.change_tab(self.size, self.parent.size)
 
-        Button:
-            id: tab5_btn
-            text: "5"
-            width: 35
-            height: 35
-            on_press: root.change_tab(self.size, self.parent.size)
 
-        Button:
-            id: tab6_btn
-            text: "6"
-            width: 35
-            height: 35
-            on_press: root.change_tab(self.size, self.parent.size)
+<NotePanel>:
+    size_hint: (None, None)
+    size: (291, 620)
+    pos_hint: {"center_x": .43, "center_y": .5}
+    orientation: "horizontal"
+    do_default_tab: False
+    tab_width: 35
+    tab_height: 35
 
-        Button:
-            id: tab7_btn
-            text: "7"
-            width: 35
-            height: 35
-            on_press: root.change_tab(self.size, self.parent.size)
+    text_view: textInput
 
-        Button:
-            id: tab8_btn
-            text: "8"
-            width: 35
-            height: 35
-            on_press: root.change_tab(self.size, self.parent.size)
-
+    TabbedPanelItem:
+        text: '1'
+        Notepad:
+            TabLabel:
+                text: "[b]" + "  1. " + "First tab content area" + "[/b]"
+                text_size: self.size
+                spacing: .2, .2
+            Note:
+                TextInput:
+                    id: textInput
+    TabbedPanelItem:
+        text: '2'
+        Notepad:
+            TabLabel:
+                text: "[b]" + "  2. " + "Second tab content area" + "[/b]"
+                text_size: self.size
+                spacing: .2, .2
+            Note:
+                TextInput:
+                    id: textInput
+    TabbedPanelItem:
+        text: '3'
+        Notepad:
+            TabLabel:
+                text: "[b]" + "  3. " + "Third tab content area" + "[/b]"
+                text_size: self.size
+                spacing: .2, .2
+            Note:
+                TextInput:
+                    id: textInput
+    TabbedPanelItem:
+        text: '4'
+        Notepad:
+            TabLabel:
+                text: "[b]" + "  4. " + "Fourth tab content area" + "[/b]"
+                text_size: self.size
+                spacing: .2, .2
+            Note:
+                TextInput:
+                    id: textInput
+    TabbedPanelItem:
+        text: '5'
+        Notepad:
+            TabLabel:
+                text: "[b]" + "  5. " + "Fifth tab content area" + "[/b]"
+                text_size: self.size
+                spacing: .2, .2
+            Note:
+                TextInput:
+                    id: textInput
+    TabbedPanelItem:
+        text: '6'
+        Notepad:
+            TabLabel:
+                text: "[b]" + "  6. " + "Sixth tab content area" + "[/b]"
+                text_size: self.size
+                spacing: .2, .2
+            Note:
+                TextInput:
+                    id: textInput
+    TabbedPanelItem:
+        text: '7'
+        Notepad:
+            TabLabel:
+                text: "[b]" + "  7. " + "Seventh tab content area" + "[/b]"
+                text_size: self.size
+                spacing: .2, .2
+            Note:
+                TextInput:
+                    id: textInput
+    TabbedPanelItem:
+        text: '8'
+        Notepad:
+            TabLabel:
+                text: "[b]" + "  8. " + "Eighth tab content area" + "[/b]"
+                text_size: self.size
+                spacing: .2, .2
+            Note:
+                TextInput:
+                    id: textInput
