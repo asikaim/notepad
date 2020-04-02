@@ -2,7 +2,7 @@
 import json
 
 
-class Configurations():
+class Configurations:
     def __init__(self):
         pass
 

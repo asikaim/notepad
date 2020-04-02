@@ -1,7 +1,7 @@
 # this file is for note class
 
 
-class Note():
+class Note:
     def __init__(self):
         self.category = None
         self.createdOn = None

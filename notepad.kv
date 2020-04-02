@@ -1,1 +1,79 @@
+#:kivy 1.0
 # kivy stuff
+
+<MainWindow>:
+    # buttonit jne
+    size: 360, 640
+    orientation: "vertical"
+
+    tab1: tab1_btn
+    tab1: tab2_btn
+    tab1: tab3_btn
+    tab1: tab4_btn
+    tab1: tab5_btn
+    tab1: tab6_btn
+    tab1: tab7_btn
+    tab1: tab8_btn
+
+    BoxLayout:
+
+        size_hint: (None, None)
+        size: (280, 35)
+        pos_hint: {"center_x": .5, "center_y": .96}
+        orientation: "horizontal"
+
+        Button:
+            id: tab1_btn
+            text: "1"
+            width: 35
+            height: 35
+            on_press: root.change_tab(self.size, self.parent.size)
+        Button:
+            id: tab2_btn
+            text: "2"
+            width: 35
+            height: 35 
+            on_press: root.change_tab(self.size, self.parent.size)
+
+        Button:
+            id: tab3_btn
+            text: "3"
+            width: 35
+            height: 35
+            on_press: root.change_tab(self.size, self.parent.size)
+
+        Button:
+            id: tab4_btn
+            text: "4"
+            width: 35
+            height: 35
+            on_press: root.change_tab(self.size, self.parent.size)
+
+        Button:
+            id: tab5_btn
+            text: "5"
+            width: 35
+            height: 35
+            on_press: root.change_tab(self.size, self.parent.size)
+
+        Button:
+            id: tab6_btn
+            text: "6"
+            width: 35
+            height: 35
+            on_press: root.change_tab(self.size, self.parent.size)
+
+        Button:
+            id: tab7_btn
+            text: "7"
+            width: 35
+            height: 35
+            on_press: root.change_tab(self.size, self.parent.size)
+
+        Button:
+            id: tab8_btn
+            text: "8"
+            width: 35
+            height: 35
+            on_press: root.change_tab(self.size, self.parent.size)
+
