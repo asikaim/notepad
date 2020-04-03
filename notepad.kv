@@ -1,5 +1,5 @@
-#:kivy 1.0
-# kivy stuff
+#:kivy 1.11.1
+
 
 <MainWindow>:
     # buttonit jne
@@ -52,29 +52,98 @@
             background_color: 255, 255, 255, 255  
             on_press: root.toggle_options(self.size, self.parent.size)
 
+<EditMenu>:
+    size_hint: (None, None)
+    size: (40, 171)
+    orientation: "vertical"
+    pos_hint: {"center_x": .94, "center_y": .29}
+
+    delete: delete_btn
+    image: image_btn
+    link: link_btn
+    save: save_btn
+
+    BoxLayout:
+        size_hint: (None, None)
+        size: self.parent.size
+        pos: self.parent.pos
+        orientation: "vertical"
+        padding: 2.5
+        spacing: "8"
+
+        canvas:
+            Color:
+                rgb: 0x26 / 255.0, 0x32 / 255.0, 0x38 / 255.0
+            Rectangle:
+                pos: self.parent.pos
+                size: self.parent.size
+        Button:
+            id: delete_btn
+            text: "D"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.delete_note()
+        Button:
+            id: image_btn
+            text: "I"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.add_image()
+        Button:
+            id: link_btn
+            text: "L"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.link_note
+        Button:
+            id: save_btn
+            text: "S"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.save_note()
+
+
+
+
+
 <Notepad@BoxLayout>:
     size_hint: (None, None)
-    size: (291, 585)
+    size: (290, 585)
     orientation: "vertical"
 
 <TabLabel@Label>:
     size_hint: (None, None)
-    size: (291, 40)
+    size: (290, 40)
     orientation: "horizontal"
     halign: "left"
     valign: "middle"
     markup: True
+    text_size: self.size
+    padding_x: 2
+    spacing: .2, .2
 
 <Note@BoxLayout>:
     size_hint: (None, None)
-    size: (291, 545)
+    size: (290, 545)
     orientation: "vertical"
-
+    padding_x: 2  
 
 
 <NotePanel>:
     size_hint: (None, None)
-    size: (291, 620)
+    size: (290, 630)
     pos_hint: {"center_x": .43, "center_y": .5}
     orientation: "horizontal"
     do_default_tab: False
@@ -82,84 +151,273 @@
     tab_height: 35
 
     text_view: textInput
+    next_note: next_btn
+    previous_note: back_btn
 
     TabbedPanelItem:
-        text: '1'
+        id: "1"
+        text: "1"
         Notepad:
             TabLabel:
                 text: "[b]" + "  1. " + "First tab content area" + "[/b]"
-                text_size: self.size
-                spacing: .2, .2
             Note:
                 TextInput:
                     id: textInput
+                    focus: True
+                BoxLayout:
+                    size_hint: (None, None)
+                    size: (290, 35)
+                    pos_hint: {"center_x": .5, "center_y": .08}
+                    orientation: "horizontal"
+                    spacing: 220
+                    Button:
+                        id: back_btn
+                        text: "<"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_previous(self.size, self.parent.size)
+                    Button:
+                        id: next_btn
+                        text: ">"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_next(self.size, self.parent.size)
+
+
     TabbedPanelItem:
-        text: '2'
+        id: "2"
+        text: "2"
         Notepad:
             TabLabel:
                 text: "[b]" + "  2. " + "Second tab content area" + "[/b]"
-                text_size: self.size
-                spacing: .2, .2
             Note:
                 TextInput:
                     id: textInput
+                BoxLayout:
+                    size_hint: (None, None)
+                    size: (290, 35)
+                    pos_hint: {"center_x": .5}
+                    orientation: "horizontal"
+                    spacing: 220
+                    Button:
+                        id: back_btn
+                        text: "<"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_previous(self.size, self.parent.size)
+                    Button:
+                        id: next_btn
+                        text: ">"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_next(self.size, self.parent.size)
     TabbedPanelItem:
-        text: '3'
+        id: "3"
+        text: "3"
         Notepad:
             TabLabel:
                 text: "[b]" + "  3. " + "Third tab content area" + "[/b]"
-                text_size: self.size
-                spacing: .2, .2
             Note:
                 TextInput:
                     id: textInput
+                BoxLayout:
+                    size_hint: (None, None)
+                    size: (290, 35)
+                    pos_hint: {"center_x": .5}
+                    orientation: "horizontal"
+                    spacing: 220
+                    Button:
+                        id: back_btn
+                        text: "<"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_previous(self.size, self.parent.size)
+                    Button:
+                        id: next_btn
+                        text: ">"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_next(self.size, self.parent.size)
     TabbedPanelItem:
-        text: '4'
+        id: "4"
+        text: "4"
         Notepad:
             TabLabel:
                 text: "[b]" + "  4. " + "Fourth tab content area" + "[/b]"
-                text_size: self.size
-                spacing: .2, .2
             Note:
                 TextInput:
                     id: textInput
+                BoxLayout:
+                    size_hint: (None, None)
+                    size: (290, 35)
+                    pos_hint: {"center_x": .5}
+                    orientation: "horizontal"
+                    spacing: 220
+                    Button:
+                        id: back_btn
+                        text: "<"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_previous(self.size, self.parent.size)
+                    Button:
+                        id: next_btn
+                        text: ">"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_next(self.size, self.parent.size)
     TabbedPanelItem:
-        text: '5'
+        id: "5"
+        text: "5"
         Notepad:
             TabLabel:
                 text: "[b]" + "  5. " + "Fifth tab content area" + "[/b]"
-                text_size: self.size
-                spacing: .2, .2
             Note:
                 TextInput:
                     id: textInput
+                BoxLayout:
+                    size_hint: (None, None)
+                    size: (290, 35)
+                    pos_hint: {"center_x": .5}
+                    orientation: "horizontal"
+                    spacing: 220
+                    Button:
+                        id: back_btn
+                        text: "<"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_previous(self.size, self.parent.size)
+                    Button:
+                        id: next_btn
+                        text: ">"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_next(self.size, self.parent.size)
     TabbedPanelItem:
-        text: '6'
+        id: "6"
+        text: "6"
         Notepad:
             TabLabel:
-                text: "[b]" + "  6. " + "Sixth tab content area" + "[/b]"
-                text_size: self.size
-                spacing: .2, .2
+                text: "[b]" + "6. " + "Sixth tab content area" + "[/b]"
             Note:
                 TextInput:
                     id: textInput
+                BoxLayout:
+                    size_hint: (None, None)
+                    size: (290, 35)
+                    pos_hint: {"center_x": .5}
+                    orientation: "horizontal"
+                    spacing: 220
+                    Button:
+                        id: back_btn
+                        text: "<"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_previous(self.size, self.parent.size)
+                    Button:
+                        id: next_btn
+                        text: ">"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_next(self.size, self.parent.size)
     TabbedPanelItem:
-        text: '7'
+        id: "7"
+        text: "7"
         Notepad:
             TabLabel:
                 text: "[b]" + "  7. " + "Seventh tab content area" + "[/b]"
-                text_size: self.size
-                spacing: .2, .2
             Note:
                 TextInput:
                     id: textInput
+                BoxLayout:
+                    size_hint: (None, None)
+                    size: (290, 35)
+                    pos_hint: {"center_x": .5}
+                    orientation: "horizontal"
+                    spacing: 220
+                    Button:
+                        id: back_btn
+                        text: "<"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_previous(self.size, self.parent.size)
+                    Button:
+                        id: next_btn
+                        text: ">"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_next(self.size, self.parent.size) 
     TabbedPanelItem:
-        text: '8'
+        id: "8"
+        text: "8"
         Notepad:
             TabLabel:
                 text: "[b]" + "  8. " + "Eighth tab content area" + "[/b]"
-                text_size: self.size
-                spacing: .2, .2
             Note:
                 TextInput:
                     id: textInput
+                BoxLayout:
+                    size_hint: (None, None)
+                    size: (290, 35)
+                    pos_hint: {"center_x": .5}
+                    orientation: "horizontal"
+                    spacing: 220
+                    Button:
+                        id: back_btn
+                        text: "<"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_previous(self.size, self.parent.size)
+                    Button:
+                        id: next_btn
+                        text: ">"
+                        color: 0, 0, 0, 1
+                        size_hint: (None, None)
+                        width: 35
+                        height: 35
+                        background_color: 255, 255, 255, 255
+                        on_press: root.move_to_next(self.size, self.parent.size)

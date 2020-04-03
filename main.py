@@ -1,4 +1,6 @@
 # main window of the notepad
+from note import NotePanel
+from options import OptionsDialog
 from kivy.core.window import Window
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.textinput import TextInput
@@ -38,13 +40,18 @@ class EditMenu(FloatLayout):
     image = ObjectProperty()
     link = ObjectProperty()
     save = ObjectProperty()
+    
+    def delete_note(self):
+        pass
 
+    def add_image(self):
+        pass
 
-class NotePanel(TabbedPanel):
-    # TODO: ScrollView
-    #       Connection to notes and categories etc.
-    text_view = ObjectProperty()
-    pass
+    def link_note(self):
+        pass
+
+    def save_note(self):
+        pass
 
 
 class MainWindow(FloatLayout):
@@ -56,28 +63,24 @@ class MainWindow(FloatLayout):
 
     def __init__(self, **kwargs):
         super(MainWindow, self).__init__()
-        self.menu_open = False
         self.clipboard_text = ""
         self.filepath = ""
         self.panel = NotePanel()
         self.add_widget(self.panel)
 
-    def close_app(self, size, parent_size):
-        print(size)
-        print(parent_size)
+    def close_app(self):
+        exit()
 
     def toggle_options(self, size, parent_size):
         print(size)
         print(parent_size)
 
     def toggle_edit(self, state):
-        if state == "down" and self.menu_open is False:
-            em = EditMenu()
-            self.menu_open = True
+        if state == "down":
+            self.menu = EditMenu()
+            self.add_widget(self.menu)
         else:
-            if self.menu_open is True:
-                EditMenu.__del__()
-                self.menu_open = False
+            self.remove_widget(self.menu)
 
     def change_tab(self, size, parent_size):
         print(size)
