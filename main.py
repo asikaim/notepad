@@ -10,7 +10,6 @@ from kivy.uix.settings import SettingsWithSpinner
 from kivy.core.text import *
 from kivy.core.text.markup import *
 from kivy.properties import *
-from kivy.uix.popup import Popup
 from kivy.config import Config
 from settingsjson import settings_json
 import os
