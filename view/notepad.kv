@@ -1,0 +1,120 @@
+#:kivy 1.11.1
+
+
+<MainWindow>:
+    # buttonit jne
+    size: 360, 640
+    orientation: "vertical"
+
+    close: close_btn
+    edit: edit_btn
+    settings: settings_btn
+
+
+    # Top Right
+    BoxLayout:
+        size_hint: (None, None)
+        size: (35, 35)
+        pos_hint: {"center_x": .94, "center_y": .953}
+        orientation: "horizontal"
+
+        Button:      
+            id: close_btn
+            text: "X"
+            color: 0, 0, 0, 1
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.close_app()
+
+    # Bottom Right
+    BoxLayout:
+        size_hint: (None, None)
+        size: (35, 85)
+        pos_hint: {"center_x": .94, "center_y": .08}
+        orientation: "vertical"
+        spacing: "15"
+
+        ToggleButton:
+            id: edit_btn
+            text: "E"
+            color: 0, 0, 0, 1
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255  
+            on_state: root.toggle_edit(self.state)
+        Button:      
+            id: settings_btn
+            text: "C"
+            color: 0, 0, 0, 1
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255  
+            on_press: app.open_settings()
+
+<EditMenu>:
+    size_hint: (None, None)
+    size: (40, 171)
+    orientation: "vertical"
+    pos_hint: {"center_x": .94, "center_y": .29}
+
+    delete: delete_btn
+    image: image_btn
+    link: link_btn
+    save: save_btn
+
+    BoxLayout:
+        size_hint: (None, None)
+        size: self.parent.size
+        pos: self.parent.pos
+        orientation: "vertical"
+        padding: 2.5
+        spacing: "8"
+
+        canvas:
+            Color:
+                rgb: 0x26 / 255.0, 0x32 / 255.0, 0x38 / 255.0
+            Rectangle:
+                pos: self.parent.pos
+                size: self.parent.size
+        Button:
+            id: delete_btn
+            text: "D"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.delete_note()
+        Button:
+            id: image_btn
+            text: "I"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.add_image()
+        Button:
+            id: link_btn
+            text: "L"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.link_note
+        Button:
+            id: save_btn
+            text: "S"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.save_note()
+
+
+
+
+

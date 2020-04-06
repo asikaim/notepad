@@ -13,8 +13,11 @@ from kivy.core.text.markup import *
 from kivy.properties import *
 from kivy.uix.popup import Popup
 from kivy.config import Config
+from kivy.lang import Builder
 import json
 import os
+
+
 
 class Note:
     def __init__(self):
@@ -51,6 +54,8 @@ def deleteNote(id):
 class NotePanel(TabbedPanel):
     # TODO: ScrollView (?)
     #       Connection to notes and categories etc.
+    Builder.load_file("notepanel.kv")
+
     text_view = ObjectProperty()
     next_note = ObjectProperty()
     previous_note = ObjectProperty()

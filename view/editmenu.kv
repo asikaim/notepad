@@ -1,0 +1,63 @@
+#:kivy 1.11.1
+
+<EditMenu>:
+    size_hint: (None, None)
+    size: (40, 171)
+    orientation: "vertical"
+    pos_hint: {"center_x": .94, "center_y": .29}
+
+    delete: delete_btn
+    image: image_btn
+    link: link_btn
+    save: save_btn
+
+    BoxLayout:
+        size_hint: (None, None)
+        size: self.parent.size
+        pos: self.parent.pos
+        orientation: "vertical"
+        padding: 2.5
+        spacing: "8"
+
+        canvas:
+            Color:
+                rgb: 0x26 / 255.0, 0x32 / 255.0, 0x38 / 255.0
+            Rectangle:
+                pos: self.parent.pos
+                size: self.parent.size
+        Button:
+            id: delete_btn
+            text: "D"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.delete_note()
+        Button:
+            id: image_btn
+            text: "I"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.add_image()
+        Button:
+            id: link_btn
+            text: "L"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.link_note
+        Button:
+            id: save_btn
+            text: "S"
+            color: 0, 0, 0, 1
+            size_hint: (None, None)
+            width: 35
+            height: 35
+            background_color: 255, 255, 255, 255
+            on_press: root.save_note()

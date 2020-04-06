@@ -9,13 +9,16 @@ Done with python & kivy
 [X] EditMenu in place
 [X] NextNote button in place
 [X] PreviousNote button in place
-[ ] Config popup in place  
+[ ] Config popup in place
 [ ] EditMenu opens if you click text editor
-[ ] Add borders to icons, menus and dialogs
+[ ] Add borders to elements
+[ ] Menus and dialogs
 [ ] Add icons in place
+[ ] Borders in icons
+[ ] Opacity on icons when clicked
 [ ] Create save and delete note functionalities
 [ ] NotePanel bottom pixels are off
-
+[ ] NotePanel top pixels are off (bug in kivy?)
 
 
 NOTES:
