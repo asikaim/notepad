@@ -10,17 +10,24 @@ Done with python & kivy
 [X] NextNote button in place
 [X] PreviousNote button in place
 [X] Settings menu in place
-[ ] EditMenu opens if you click text editor
+[x] .ini file for categories
+[x] Create save functionality
+[x] Note saved according to category
+[ ] Move to next note
+[ ] Move to previous note
+[ ] on_config_change
+[ ] Read settings from .ini file (when changing categories)
+[ ] Save into new file if the note is new
+[ ] Create delete note functionality
+[ ] EditMenu re-opens if you click text editor
 [ ] Add borders to elements
 [ ] Menus and dialogs
 [ ] Add icons in place
 [ ] Borders in icons
 [ ] Opacity on icons when clicked
-[ ] Create save and delete note functionalities
 [ ] NotePanel bottom pixels are off
 [ ] NotePanel top pixels are off (bug in kivy?)
-[ ] Read settings from file
-
+[ ] Sixth tab label pixels are off
 
 NOTES:
 Creating a scrollbar incredibly hard
@@ -31,3 +38,4 @@ Also the original togglebutton can't be brought to front, since kivy doesn't sup
 "always on top" for anything.
 Since there isn't "always on top" creating a settings menu was really hard. I thought I could do it as a popup, but building a toggleable popup proved out to be impossible.
 Luckily, Kivy had convenient widget for settings that matched common mobile views, so instead of creating my own, I went with the prebuilt one.
+Setting category to edit and doing changes afterwards was complicated to implement with this widget, so I set the categories to their own tab.

@@ -11,7 +11,7 @@ from kivy.core.text import *
 from kivy.core.text.markup import *
 from kivy.properties import *
 from kivy.config import Config
-from settingsjson import settings_json
+from settingsjson import application_settings_json, category_settings_json
 import os
 
 Config.set("graphics", "resizable", False)
@@ -31,19 +31,26 @@ class Notepad(App):
         return MainWindow()
 
     def build_config(self, config):
-        config.setdefaults("category", {
-            "categoryID": "1",
-            "categoryName": "Notes",
-            "categoryColor": "white",
-        })
-        config.setdefaults("application", {
-            "window": "360x640",
-            "filePath": "/notes/",
-            "language": "English",
-        })
+        config.setdefaults(
+            "application", {"window": "360x640", "filepath": "", "language": "English",}
+        )
+        for i in range(1, 9):
+            config.setdefaults(
+                "category{}".format(i),
+                {
+                    "categoryID": "{}".format(i),
+                    "categoryName": "#{} Notes".format(i),
+                    "categoryColor": "white",
+                },
+            )
 
     def build_settings(self, settings):
-        settings.add_json_panel("Settings", self.config, data=settings_json)
+        settings.add_json_panel(
+            "Application Settings", self.config, data=application_settings_json
+        )
+        settings.add_json_panel(
+            "Category Settings", self.config, data=category_settings_json
+        )
 
     def on_config_change(self, config, section, key, value):
         pass
@@ -57,6 +64,12 @@ class EditMenu(FloatLayout):
     link = ObjectProperty()
     save = ObjectProperty()
 
+    def __init__(self, notetext, notecategory):
+        self.text = notetext
+        self.category = notecategory
+        super().__init__()
+        
+
     def delete_note(self):
         pass
 
@@ -66,8 +79,24 @@ class EditMenu(FloatLayout):
     def link_note(self):
         pass
 
-    def save_note(self):
-        pass
+    def on_save(self, *args):
+        self.filepath = App.get_running_app().config.get("application", "filepath")
+        if self.filepath == "":
+            content = SaveDialog(save_file=self.save_as_file, cancel=self._popup.dismiss())
+            self._popup = Popup(title="Save As File", content=content, size_hint=(0.9, 0.9))
+            self._popup.open()
+        else:
+            file = self.filepath + "\\" + self.category + "-note1.txt"
+            f = open(file, "w")
+            f.write(str(self.text))
+            f.close()
+
+    def save_as_file(self, path, filename):
+        self.filepath = os.path.join(path, filename)
+        f = open(self.filepath, "w")
+        f.write(self.text)
+        f.close()
+        self.cancel_dialog()
 
 
 class NotePanel(TabbedPanel):
@@ -80,11 +109,15 @@ class NotePanel(TabbedPanel):
     previous_note = ObjectProperty()
 
     def move_to_previous(self, size1, size2):
+        # Todo: get number of current note as parameter
+        #       decrement by one
         print("pressed")
         print(size1)
         print(size2)
 
     def move_to_next(self, size1, size2):
+        # Todo: get number of current note as parameter
+        #       increment by one
         print("pressed")
         print(size1)
         print(size2)
@@ -101,7 +134,6 @@ class MainWindow(FloatLayout):
     def __init__(self, **kwargs):
         super(MainWindow, self).__init__()
         self.clipboard_text = ""
-        self.filepath = ""
         self.panel = NotePanel()
         self.add_widget(self.panel)
 
@@ -117,7 +149,10 @@ class MainWindow(FloatLayout):
 
     def toggle_edit(self, state):
         if state == "down":
-            self.menu = EditMenu()
+            notetext = self.panel.current_tab.content.children[0].children[1].text
+            notecategory = self.panel.current_tab.text
+
+            self.menu = EditMenu(notetext, notecategory)
             self.add_widget(self.menu)
         else:
             self.remove_widget(self.menu)

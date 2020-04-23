@@ -60,4 +60,28 @@
             width: 35
             height: 35
             background_color: 255, 255, 255, 255
-            on_press: root.save_note()
+            on_press: root.on_save()
+
+
+<SaveDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            
+            TextInput:
+                id: text_input               
+            
+            Button:
+                text: "Cancel"
+                on_release: root.dialog_cancel()
+                
+            Button:
+                text: "Save As"
+                on_release: root.save_file(filechooser.path, text_input.text)
