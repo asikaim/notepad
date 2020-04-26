@@ -55,7 +55,6 @@ category_settings_json = json.dumps(
                 "orange",
                 "brown",
                 "yellow",
-                "white",
                 "gray",
                 "black",
             ],

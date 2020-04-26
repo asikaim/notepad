@@ -15,17 +15,18 @@
     BoxLayout:
         size_hint: (None, None)
         size: (35, 35)
-        pos_hint: {"center_x": .94, "center_y": .953}
+        pos_hint: {"center_x": .94, "center_y": .958}
         orientation: "horizontal"
 
         Button:      
             id: close_btn
-            text: "X"
-            color: 0, 0, 0, 1
-            width: 35
-            height: 35
-            background_color: 255, 255, 255, 255
             on_press: root.close_app()
+            Image:
+                source: "./icons/close.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35, 35
+                allow_stretch: True
 
     # Bottom Right
     BoxLayout:
@@ -37,20 +38,23 @@
 
         ToggleButton:
             id: edit_btn
-            text: "E"
-            color: 0, 0, 0, 1
-            width: 35
-            height: 35
-            background_color: 255, 255, 255, 255  
             on_state: root.toggle_edit(self.state)
+            Image:
+                source: "./icons/edit.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35, 35
+                allow_stretch: True
         Button:      
             id: settings_btn
-            text: "C"
-            color: 0, 0, 0, 1
-            width: 35
-            height: 35
-            background_color: 255, 255, 255, 255  
             on_press: app.open_settings()
+            Image:
+                source: "./icons/settings.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35, 35
+                allow_stretch: True
+            
 
 
 

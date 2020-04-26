@@ -1,4 +1,5 @@
 #:kivy 1.11.1
+#:import utils kivy.utils
 
 <Notepad@BoxLayout>:
     size_hint: (None, None)
@@ -24,6 +25,7 @@
 
 
 <NotePanel>:
+    id: NotePanel
     size_hint: (None, None)
     size: (290, 630)
     pos_hint: {"center_x": .43, "center_y": .5}
@@ -39,13 +41,16 @@
     TabbedPanelItem:
         id: "1"
         text: "1"
+        current_note: root.get_latest_note("1")
+        background_color: root.get_category_color("1")
         Notepad:
             TabLabel:
-                text: "[b]" + "  1. " + "First tab content area" + "[/b]"
+                text: root.get_category_name("1")
             Note:
                 TextInput:
                     id: textInput
                     focus: True
+                    background_color: root.get_category_color("1")
                 BoxLayout:
                     size_hint: (None, None)
                     size: (290, 35)
@@ -54,34 +59,37 @@
                     spacing: 220
                     Button:
                         id: back_btn
-                        text: "<"
-                        color: 0, 0, 0, 1
-                        size_hint: (None, None)
-                        width: 35
-                        height: 35
+                        on_press: root.change_note("previous")
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_previous(self.size, self.parent.size)
+                        Image:
+                            source: "./icons/left.png"
+                            center_x: self.parent.center_x
+                            center_y: self.parent.center_y
+                            size: 35, 35
+                            allow_stretch: True
                     Button:
                         id: next_btn
-                        text: ">"
-                        color: 0, 0, 0, 1
-                        size_hint: (None, None)
-                        width: 35
-                        height: 35
+                        on_press: root.change_note("next")
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_next(self.size, self.parent.size)
-
-
+                        Image:
+                            source: "./icons/right.png"
+                            center_x: self.parent.center_x
+                            center_y: self.parent.center_y
+                            size: 35, 35
+                            allow_stretch: True
+                        
     TabbedPanelItem:
         id: "2"
         text: "2"
-        background_color: (3, 0, 0, .5)
+        current_note: root.get_latest_note("2")
+        background_color: root.get_category_color("2")
         Notepad:
             TabLabel:
-                text: "[b]" + "  2. " + "Second tab content area" + "[/b]"
+                text: root.get_category_name("2")
             Note:
                 TextInput:
                     id: textInput
+                    background_color: root.get_category_color("2")
                 BoxLayout:
                     size_hint: (None, None)
                     size: (290, 35)
@@ -96,7 +104,7 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_previous(self.size, self.parent.size)
+                        on_press: root.change_note("previous")
                     Button:
                         id: next_btn
                         text: ">"
@@ -105,16 +113,19 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_next(self.size, self.parent.size)
+                        on_press: root.change_note("next")
     TabbedPanelItem:
         id: "3"
         text: "3"
+        current_note: root.get_latest_note("3")
+        background_color: root.get_category_color("3")
         Notepad:
             TabLabel:
-                text: "[b]" + "  3. " + "Third tab content area" + "[/b]"
+                text: root.get_category_name("3")
             Note:
                 TextInput:
                     id: textInput
+                    background_color: root.get_category_color("3")
                 BoxLayout:
                     size_hint: (None, None)
                     size: (290, 35)
@@ -129,7 +140,7 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_previous(self.size, self.parent.size)
+                        on_press: root.change_note("previous")
                     Button:
                         id: next_btn
                         text: ">"
@@ -138,16 +149,20 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_next(self.size, self.parent.size)
+                        on_press: root.change_note("next")
     TabbedPanelItem:
         id: "4"
         text: "4"
+        current_note: root.get_latest_note("4")
+        background_color: root.get_category_color("4")
         Notepad:
             TabLabel:
-                text: "[b]" + "  4. " + "Fourth tab content area" + "[/b]"
+                text: root.get_category_name("4")
+                background_color: root.get_category_color("4")
             Note:
                 TextInput:
                     id: textInput
+                    background_color: root.get_category_color("4")
                 BoxLayout:
                     size_hint: (None, None)
                     size: (290, 35)
@@ -162,7 +177,7 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_previous(self.size, self.parent.size)
+                        on_press: root.change_note("previous")
                     Button:
                         id: next_btn
                         text: ">"
@@ -171,13 +186,16 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_next(self.size, self.parent.size)
+                        on_press: root.change_note("next")
     TabbedPanelItem:
         id: "5"
         text: "5"
+        current_note: root.get_latest_note("5")
+        background_color: root.get_category_color("5")
         Notepad:
             TabLabel:
-                text: "[b]" + "  5. " + "Fifth tab content area" + "[/b]"
+                text: root.get_category_name("5")
+                background_color: root.get_category_color("5")
             Note:
                 TextInput:
                     id: textInput
@@ -195,7 +213,7 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_previous(self.size, self.parent.size)
+                        on_press: root.change_note("previous")
                     Button:
                         id: next_btn
                         text: ">"
@@ -204,16 +222,19 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_next(self.size, self.parent.size)
+                        on_press: root.change_note("next")
     TabbedPanelItem:
         id: "6"
         text: "6"
+        current_note: root.get_latest_note("6")
+        background_color: root.get_category_color("6")
         Notepad:
             TabLabel:
-                text: "[b]" + "6. " + "Sixth tab content area" + "[/b]"
+                text: root.get_category_name("6")
             Note:
                 TextInput:
                     id: textInput
+                    background_color: root.get_category_color("6")
                 BoxLayout:
                     size_hint: (None, None)
                     size: (290, 35)
@@ -228,7 +249,7 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_previous(self.size, self.parent.size)
+                        on_press: root.change_note("previous")
                     Button:
                         id: next_btn
                         text: ">"
@@ -237,16 +258,19 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_next(self.size, self.parent.size)
+                        on_press: root.change_note("next")
     TabbedPanelItem:
         id: "7"
         text: "7"
+        current_note: root.get_latest_note("7")
+        background_color: root.get_category_color("7")
         Notepad:
             TabLabel:
-                text: "[b]" + "  7. " + "Seventh tab content area" + "[/b]"
+                text: root.get_category_name("7")
             Note:
                 TextInput:
                     id: textInput
+                    background_color: root.get_category_color("7")
                 BoxLayout:
                     size_hint: (None, None)
                     size: (290, 35)
@@ -261,7 +285,7 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_previous(self.size, self.parent.size)
+                        on_press: root.change_note("previous")
                     Button:
                         id: next_btn
                         text: ">"
@@ -270,16 +294,19 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_next(self.size, self.parent.size) 
+                        on_press: root.change_note("next")
     TabbedPanelItem:
         id: "8"
         text: "8"
+        current_note: root.get_latest_note("8")
+        background_color: root.get_category_color("8")
         Notepad:
             TabLabel:
-                text: "[b]" + "  8. " + "Eighth tab content area" + "[/b]"
+                text: root.get_category_name("8")
             Note:
                 TextInput:
                     id: textInput
+                    background_color: root.get_category_color("8")
                 BoxLayout:
                     size_hint: (None, None)
                     size: (290, 35)
@@ -294,7 +321,7 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_previous(self.size, self.parent.size)
+                        on_press: root.change_note("previous")
                     Button:
                         id: next_btn
                         text: ">"
@@ -303,4 +330,4 @@
                         width: 35
                         height: 35
                         background_color: 255, 255, 255, 255
-                        on_press: root.move_to_next(self.size, self.parent.size)
+                        on_press: root.change_note("next")

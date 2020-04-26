@@ -27,61 +27,38 @@
                 size: self.parent.size
         Button:
             id: delete_btn
-            text: "D"
-            color: 0, 0, 0, 1
-            size_hint: (None, None)
-            width: 35
-            height: 35
-            background_color: 255, 255, 255, 255
             on_press: root.delete_note()
+            Image:
+                source: "./icons/trash.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35, 35
+                allow_stretch: True
         Button:
             id: image_btn
-            text: "I"
-            color: 0, 0, 0, 1
-            size_hint: (None, None)
-            width: 35
-            height: 35
-            background_color: 255, 255, 255, 255
             on_press: root.add_image()
+            Image:
+                source: "./icons/image.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35, 35
+                allow_stretch: True
+            
         Button:
             id: link_btn
-            text: "L"
-            color: 0, 0, 0, 1
-            size_hint: (None, None)
-            width: 35
-            height: 35
-            background_color: 255, 255, 255, 255
-            on_press: root.link_note
+            on_press: root.link_note()
+            Image:
+                source: "./icons/link.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35, 35
+                allow_stretch: True
         Button:
             id: save_btn
-            text: "S"
-            color: 0, 0, 0, 1
-            size_hint: (None, None)
-            width: 35
-            height: 35
-            background_color: 255, 255, 255, 255
             on_press: root.on_save()
-
-
-<SaveDialog>:
-    BoxLayout:
-        size: root.size
-        pos: root.pos
-        orientation: "vertical"
-        FileChooserListView:
-            id: filechooser
-
-        BoxLayout:
-            size_hint_y: None
-            height: 30
-            
-            TextInput:
-                id: text_input               
-            
-            Button:
-                text: "Cancel"
-                on_release: root.dialog_cancel()
-                
-            Button:
-                text: "Save As"
-                on_release: root.save_file(filechooser.path, text_input.text)
+            Image:
+                source: "./icons/save.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35, 35
+                allow_stretch: True

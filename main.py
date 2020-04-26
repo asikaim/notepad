@@ -1,18 +1,33 @@
 # main window of the notepad
-from kivy.core.window import Window
+from popups import (
+    NoteDeletionPopup,
+    NoteSavedPopup,
+    ColorChangePopup,
+    NameChangePopup,
+    NotImplementedPopup,
+    NoFilepathPopup,
+    FirstNotePopup,
+    ExitPopup,
+)
+from helpers import (
+    get_note_id,
+    create_note,
+    create_placeholder_notes,
+    save_note,
+    get_color,
+    reverse,
+)
 from kivy.uix.tabbedpanel import TabbedPanel
-from kivy.uix.textinput import TextInput
 from kivy.app import App
-from kivy.lang import Builder
-from kivy.uix.floatlayout import *
-from kivy.uix.boxlayout import *
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.settings import SettingsWithSpinner
-from kivy.core.text import *
-from kivy.core.text.markup import *
-from kivy.properties import *
+from kivy.uix.settings import SettingsPanel
+from kivy.properties import ObjectProperty
 from kivy.config import Config
+from kivy.lang import Builder
 from settingsjson import application_settings_json, category_settings_json
 import os
+import glob
 
 Config.set("graphics", "resizable", False)
 Config.set("graphics", "width", "360")
@@ -28,11 +43,12 @@ class Notepad(App):
     def build(self):
         self.settings_cls = SettingsWithSpinner
         self.use_kivy_settings = False
-        return MainWindow()
+        root = MainWindow()
+        return root
 
     def build_config(self, config):
         config.setdefaults(
-            "application", {"window": "360x640", "filepath": "", "language": "English",}
+            "application", {"window": "360x640", "filepath": ".\\notes", "language": "English",}
         )
         for i in range(1, 9):
             config.setdefaults(
@@ -53,7 +69,30 @@ class Notepad(App):
         )
 
     def on_config_change(self, config, section, key, value):
-        pass
+        # NOTE: No functionality yet for application setting changes
+        #       since window resize / language aren't supported yet
+        if config is self.config:
+            if section in [
+                "category1",
+                "category2",
+                "category3",
+                "category4",
+                "category5",
+                "category6",
+                "category7",
+                "category8",
+            ]:
+                category_id = section[-1]
+                if key == "categoryColor":
+                    color = get_color(value)
+                    self.root.panel.change_color(category_id, color)
+                elif key == "categoryName":
+                    self.root.panel.change_name(category_id, value)
+
+    def get_note(self):
+        text = self.root.panel.current_tab.content.children[0].children[1].text
+        note = self.root.panel.current_tab.current_note
+        return text, note
 
 
 class EditMenu(FloatLayout):
@@ -64,67 +103,137 @@ class EditMenu(FloatLayout):
     link = ObjectProperty()
     save = ObjectProperty()
 
-    def __init__(self, notetext, notecategory):
-        self.text = notetext
-        self.category = notecategory
+    def __init__(self, text, note):
+        self.text = text
+        self.note = note
         super().__init__()
-        
 
     def delete_note(self):
-        pass
+        self.text, self.note = App.get_running_app().get_note()
+        try:
+            print("Deleting: " + self.note)
+            os.remove(self.note)
+            App.get_running_app().root.panel.change_note("previous", delete=True)
+            deletion_popup = NoteDeletionPopup()
+            deletion_popup.open()
+        except NameError as ne:
+            print("Error while deleting file ")
+            print(ne)
+        except FileNotFoundError as fnfe:
+            print("Error while deleting file ")
+            print(fnfe)
 
     def add_image(self):
-        pass
+        not_implemented_popup = NotImplementedPopup()
+        not_implemented_popup.open()
 
     def link_note(self):
-        pass
+        not_implemented_popup = NotImplementedPopup()
+        not_implemented_popup.open()
 
     def on_save(self, *args):
+        self.text, self.note = App.get_running_app().get_note()
         self.filepath = App.get_running_app().config.get("application", "filepath")
         if self.filepath == "":
-            content = SaveDialog(save_file=self.save_as_file, cancel=self._popup.dismiss())
-            self._popup = Popup(title="Save As File", content=content, size_hint=(0.9, 0.9))
-            self._popup.open()
+            no_filepath_popup = NoFilepathPopup()
+            no_filepath_popup.open()
         else:
-            file = self.filepath + "\\" + self.category + "-note1.txt"
-            f = open(file, "w")
-            f.write(str(self.text))
-            f.close()
-
-    def save_as_file(self, path, filename):
-        self.filepath = os.path.join(path, filename)
-        f = open(self.filepath, "w")
-        f.write(self.text)
-        f.close()
-        self.cancel_dialog()
+            save_note(self.text, self.note)
+            note_saved_popup = NoteSavedPopup()
+            note_saved_popup.open()
 
 
 class NotePanel(TabbedPanel):
-    # TODO: ScrollView (?)
-    #       Connection to notes and categories etc.
     Builder.load_file("./view/notepanel.kv")
 
     text_view = ObjectProperty()
     next_note = ObjectProperty()
     previous_note = ObjectProperty()
 
-    def move_to_previous(self, size1, size2):
-        # Todo: get number of current note as parameter
-        #       decrement by one
-        print("pressed")
-        print(size1)
-        print(size2)
+    def __init__(self):
+        self.path = App.get_running_app().config.get("application", "filepath")
+        super().__init__()
 
-    def move_to_next(self, size1, size2):
-        # Todo: get number of current note as parameter
-        #       increment by one
-        print("pressed")
-        print(size1)
-        print(size2)
+    def show_note(self, note):
+        if self.current_tab.content is not None:
+            try:
+                f = open(note, "r")
+                s = f.read()
+                self.current_tab.content.children[0].children[1].text = s
+                f.close()
+                self.tab_content_shown = True
+            except FileNotFoundError as e:
+                print(e)
+
+    def get_latest_note(self, category):
+        list_of_notes = glob.glob("{}\\{}-*".format(self.path, category))
+        if list_of_notes:
+            latest_note = max(list_of_notes, key=os.path.getctime)
+        else:
+            create_placeholder_notes(self.path)
+            latest_note = "{}\\{}-1.txt".format(self.path, category)
+        self.show_note(latest_note)
+        return latest_note
+
+    def change_note(self, action, delete=False):
+        category = self.current_tab.text
+        if self.current_tab.current_note:
+            note_id = get_note_id(self.current_tab.current_note)
+            if note_id > 1 and action == "previous":
+                note_id = note_id - 1
+            elif action == "next":
+                note_id = note_id + 1
+            else:
+                first_note_popup = FirstNotePopup()
+                first_note_popup.open()
+                return
+            note_text = self.current_tab.content.children[0].children[1].text
+
+            if delete is False:
+                save_note(note_text, self.current_tab.current_note)
+
+            note = self.path + "\\" + category + "-" + str(note_id) + ".txt"
+            latest_note_id = get_note_id(self.get_latest_note(category))
+
+            if note_id > latest_note_id:
+                create_note(note)
+
+            self.current_tab.current_note = note
+            self.show_note(note)
+        return
+
+    def change_color(self, category, color):
+        tab = int(category) - 1
+        self.reverse_list = reverse(self.tab_list)
+        self.reverse_list[tab].content.background_color = color
+        color_popup = ColorChangePopup()
+        color_popup.open()
+
+    def change_name(self, category, name):
+        tab = int(category) - 1
+        self.reverse_list = reverse(self.tab_list)
+        self.reverse_list[tab].content.children[1].text = "[b] {}. {} [/b]".format(
+            category, name
+        )
+        name_popup = NameChangePopup()
+        name_popup.open()
+
+    def get_category_color(self, category):
+        color = App.get_running_app().config.get(
+            "category{}".format(category), "categoryColor"
+        )
+        val = get_color(color)
+        return val
+
+    def get_category_name(self, category):
+        name = App.get_running_app().config.get(
+            "category{}".format(category), "categoryName"
+        )
+        val = "[b] {}. {} [/b]".format(category, name)
+        return val
 
 
 class MainWindow(FloatLayout):
-    # buttonit tähän ja viewit ym
     Builder.load_file("./view/notepad.kv")
 
     close = ObjectProperty()
@@ -138,28 +247,22 @@ class MainWindow(FloatLayout):
         self.add_widget(self.panel)
 
     def close_app(self):
-        exit()
+        self.text, self.note = App.get_running_app().get_note()
+        save_note(self.text, self.note)
+        exit_popup = ExitPopup()
+        exit_popup.open()
 
     def open_settings(self):
-        if state == "down":
-            self.settings = SettingsPanel()
-            self.add_widget(self.settings)
-        else:
-            self.remove_widget(self.settings)
+        self.settings = SettingsPanel()
+        self.add_widget(self.settings)
 
     def toggle_edit(self, state):
         if state == "down":
-            notetext = self.panel.current_tab.content.children[0].children[1].text
-            notecategory = self.panel.current_tab.text
-
-            self.menu = EditMenu(notetext, notecategory)
+            self.text, self.note = App.get_running_app().get_note()
+            self.menu = EditMenu(self.text, self.note)
             self.add_widget(self.menu)
         else:
             self.remove_widget(self.menu)
-
-    def change_tab(self, size, parent_size):
-        print(size)
-        print(parent_size)
 
 
 if __name__ == "__main__":
