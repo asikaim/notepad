@@ -48,7 +48,8 @@ class Notepad(App):
 
     def build_config(self, config):
         config.setdefaults(
-            "application", {"window": "360x640", "filepath": ".\\notes", "language": "English",}
+            "application",
+            {"window": "360x640", "filepath": ".\\notes", "language": "English",},
         )
         for i in range(1, 9):
             config.setdefaults(
