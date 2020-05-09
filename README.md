@@ -1,3 +1,3 @@
 # notepad  
-Notepad program with related notes and categories  
+Notepad program with categories  
 Done with python & kivy
